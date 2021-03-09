@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{068E309D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facet.Tests.Unit", "tests\Facet.Tests.Unit\Facet.Tests.Unit.csproj", "{20F319E7-955D-4BFC-9E27-5C1B0EDE08C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facet.msdi", "src\Facet.msdi\Facet.msdi.csproj", "{C9DF92E7-6672-4403-8910-C6016031A391}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facet.Msdi", "src\Facet.Msdi\Facet.Msdi.csproj", "{C9DF92E7-6672-4403-8910-C6016031A391}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
