@@ -1,9 +1,9 @@
 using System;
-using dotnet_aop.msdi;
+using Facet.Msdi;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace dotnet_aop.tests.unit
+namespace Facet.Tests.Unit
 {
     public class Interception
     {
@@ -13,15 +13,15 @@ namespace dotnet_aop.tests.unit
         {
             var colllection = new ServiceCollection();
 
-            colllection.AddSingleton<dependencies.IDateTimeReporter, dependencies.DateTimeReporterWithLog>();
+            colllection.AddSingleton<Dependencies.IDateTimeReporter, Dependencies.DateTimeReporterWithLog>();
 
-            _provider = colllection.BuildWithAspects();
+            _provider = colllection.BuildWithFacets();
         }
 
         [Fact]
         public void DoesIntercept()
         {
-            var reporter = _provider.GetService<dependencies.IDateTimeReporter>();
+            var reporter = _provider.GetService<Dependencies.IDateTimeReporter>();
             var result = reporter.Report();
 
             Assert.IsType<DateTime>(result);

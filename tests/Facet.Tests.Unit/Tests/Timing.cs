@@ -1,9 +1,9 @@
 using System;
-using dotnet_aop.msdi;
+using Facet.Msdi;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace dotnet_aop.tests.unit
+namespace Facet.Tests.Unit
 {
     public class Timing
     {
@@ -17,7 +17,7 @@ namespace dotnet_aop.tests.unit
         {
             var colllection = new ServiceCollection();
 
-            colllection.AddSingleton<dependencies.IDateTimeReporter, dependencies.DateTimeReporter>();
+            colllection.AddSingleton<Dependencies.IDateTimeReporter, Dependencies.DateTimeReporter>();
 
             return colllection.BuildServiceProvider();
         }
@@ -26,18 +26,18 @@ namespace dotnet_aop.tests.unit
         {
             var colllection = new ServiceCollection();
 
-            colllection.AddSingleton<dependencies.IDateTimeReporter, dependencies.DateTimeReporter>();
+            colllection.AddSingleton<Dependencies.IDateTimeReporter, Dependencies.DateTimeReporter>();
 
-            return colllection.BuildWithAspects();
+            return colllection.BuildWithFacets();
         }
 
         private IServiceProvider CreateStandardServiceProviderWithAspectsImplemented()
         {
             var colllection = new ServiceCollection();
 
-            colllection.AddSingleton<dependencies.IDateTimeReporter, dependencies.DateTimeReporterWithLog>();
+            colllection.AddSingleton<Dependencies.IDateTimeReporter, Dependencies.DateTimeReporterWithLog>();
 
-            return colllection.BuildWithAspects();
+            return colllection.BuildWithFacets();
         }
 
         [Fact]
@@ -70,15 +70,15 @@ namespace dotnet_aop.tests.unit
             var aspectImplementedProvider = CreateStandardServiceProviderWithAspectsImplemented();
 
             baseline.Start();
-            baseProvider.GetService<dependencies.IDateTimeReporter>();
+            baseProvider.GetService<Dependencies.IDateTimeReporter>();
             baseline.Stop();
 
             withAspects.Start();
-            aspectProvider.GetService<dependencies.IDateTimeReporter>();
+            aspectProvider.GetService<Dependencies.IDateTimeReporter>();
             withAspects.Stop();
 
             withAspectsImplemented.Start();
-            aspectImplementedProvider.GetService<dependencies.IDateTimeReporter>();
+            aspectImplementedProvider.GetService<Dependencies.IDateTimeReporter>();
             withAspectsImplemented.Stop();
 
             Console.WriteLine($"GetServiceTimingCold Execution Time (Baseline) {baseline.Elapsed.TotalMilliseconds} ms");
@@ -97,20 +97,20 @@ namespace dotnet_aop.tests.unit
             var aspectProvider = CreateStandardServiceProviderWithAspects();
             var aspectImplementedProvider = CreateStandardServiceProviderWithAspectsImplemented();
 
-            baseProvider.GetService<dependencies.IDateTimeReporter>();
-            aspectProvider.GetService<dependencies.IDateTimeReporter>();
-            aspectImplementedProvider.GetService<dependencies.IDateTimeReporter>();
+            baseProvider.GetService<Dependencies.IDateTimeReporter>();
+            aspectProvider.GetService<Dependencies.IDateTimeReporter>();
+            aspectImplementedProvider.GetService<Dependencies.IDateTimeReporter>();
 
             baseline.Start();
-            baseProvider.GetService<dependencies.IDateTimeReporter>();
+            baseProvider.GetService<Dependencies.IDateTimeReporter>();
             baseline.Stop();
 
             withAspects.Start();
-            aspectProvider.GetService<dependencies.IDateTimeReporter>();
+            aspectProvider.GetService<Dependencies.IDateTimeReporter>();
             withAspects.Stop();
 
             withAspectsImplemented.Start();
-            aspectImplementedProvider.GetService<dependencies.IDateTimeReporter>();
+            aspectImplementedProvider.GetService<Dependencies.IDateTimeReporter>();
             withAspectsImplemented.Stop();
 
             Console.WriteLine($"GetServiceTimingWarm Execution Time (Baseline) {baseline.Elapsed.TotalMilliseconds} ms");

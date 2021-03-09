@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>dotnet_aop.tests.unit</RootNamespace>
+    <RootNamespace>Facet.Tests.Unit</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\dotnet-aop\dotnet-aop.csproj" />
-    <ProjectReference Include="..\..\src\dotnet-aop.msdi\dotnet-aop.msdi.csproj" />
+    <ProjectReference Include="..\..\src\Facet\Facet.csproj" />
+    <ProjectReference Include="..\..\src\Facet.Msdi\Facet.Msdi.csproj" />
   </ItemGroup>
 
 </Project>

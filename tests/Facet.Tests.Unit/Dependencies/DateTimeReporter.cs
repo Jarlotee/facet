@@ -1,6 +1,6 @@
 using System;
 
-namespace dotnet_aop.tests.unit.dependencies
+namespace Facet.Tests.Unit.Dependencies
 {
     public class DateTimeReporter : IDateTimeReporter
     {

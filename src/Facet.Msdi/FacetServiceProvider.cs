@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace dotnet_aop.msdi
+namespace Facet.Msdi
 {
-    public class AspectServiceProvider : IServiceProvider
+    public class FacetServiceProvider : IServiceProvider
     {
         private readonly IServiceProvider _provider;
 
-        public AspectServiceProvider(IServiceProvider provider)
+        public FacetServiceProvider(IServiceProvider provider)
         {
             _provider = provider;
         }
@@ -35,7 +35,7 @@ namespace dotnet_aop.msdi
 
         private bool HasAspectAttribute(Type t)
         {
-            var classAttribute = Attribute.GetCustomAttribute(t, typeof(Aspect));
+            var classAttribute = Attribute.GetCustomAttribute(t, typeof(Facet));
 
             if (classAttribute != null)
             {
@@ -44,7 +44,7 @@ namespace dotnet_aop.msdi
 
             foreach (var method in t.GetMethods())
             {
-                var methodAttribute = Attribute.GetCustomAttribute(method, typeof(Aspect));
+                var methodAttribute = Attribute.GetCustomAttribute(method, typeof(Facet));
 
                 if (methodAttribute != null)
                 {
@@ -63,9 +63,9 @@ namespace dotnet_aop.msdi
 
             while (chain.Count > 0)
             {
-                var createMethod = typeof(AspectProxy<>)
+                var createMethod = typeof(FacetProxy<>)
                     .MakeGenericType(serviceType)
-                    .GetMethod(nameof(AspectProxy<object>.Create), BindingFlags.Public | BindingFlags.Static);
+                    .GetMethod(nameof(FacetProxy<object>.Create), BindingFlags.Public | BindingFlags.Static);
 
                 var proxy = createMethod.Invoke(null, new object[] { next, chain.Dequeue() });
                 next = proxy;
@@ -74,45 +74,45 @@ namespace dotnet_aop.msdi
             return next;
         }
 
-        private Queue<AspectConfiguration> GetAspectsChain(Type serviceType, Type implementationType)
+        private Queue<FacetConfiguration> GetAspectsChain(Type serviceType, Type implementationType)
         {
-            var aspects = new Queue<AspectConfiguration>();
+            var configurations = new Queue<FacetConfiguration>();
             var interfaceMap = implementationType.GetInterfaceMap(serviceType);
 
-            foreach (var attribute in Attribute.GetCustomAttributes(implementationType, typeof(Aspect)))
+            foreach (var attribute in Attribute.GetCustomAttributes(implementationType, typeof(Facet)))
             {
-                var config = UpsertAspectConfiguration(ref aspects, attribute);
+                var config = UpsertAspectConfiguration(ref configurations, attribute);
                 config.IsClass = true;
             }
 
             foreach (var method in implementationType.GetMethods())
             {
-                foreach (var attribute in Attribute.GetCustomAttributes(method, typeof(Aspect)))
+                foreach (var attribute in Attribute.GetCustomAttributes(method, typeof(Facet)))
                 {
-                    var config = UpsertAspectConfiguration(ref aspects, attribute);
+                    var config = UpsertAspectConfiguration(ref configurations, attribute);
                     var methodIndex = Array.IndexOf(interfaceMap.TargetMethods, method);
                     config.Methods.Add(interfaceMap.InterfaceMethods[methodIndex]);
                 }
             }
 
-            return aspects;
+            return configurations;
         }
 
-        private AspectConfiguration UpsertAspectConfiguration(ref Queue<AspectConfiguration> queue, Attribute attribute)
+        private FacetConfiguration UpsertAspectConfiguration(ref Queue<FacetConfiguration> queue, Attribute attribute)
         {
-            var aspect = queue.Where(a => a.Aspect.Equals(attribute)).FirstOrDefault();
+            var facet = queue.Where(a => a.Facet.Equals(attribute)).FirstOrDefault();
 
-            if (aspect == null)
+            if (facet == null)
             {
-                aspect = new AspectConfiguration
+                facet = new FacetConfiguration
                 {
-                    Aspect = (Aspect)attribute
+                    Facet = (Facet)attribute
                 };
 
-                queue.Enqueue(aspect);
+                queue.Enqueue(facet);
             }
 
-            return aspect;
+            return facet;
         }
     }
 }

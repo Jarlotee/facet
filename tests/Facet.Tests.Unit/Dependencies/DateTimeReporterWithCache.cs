@@ -1,10 +1,10 @@
 using System;
 
-namespace dotnet_aop.tests.unit.dependencies
+namespace Facet.Tests.Unit.Dependencies
 {
     public class DateTimeReporterWithLog : IDateTimeReporter
     {
-        [aspects.Logger]
+        [Facets.Logger]
         public DateTime Report()
         {
             return DateTime.Now;

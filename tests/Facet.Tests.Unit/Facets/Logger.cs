@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
 
-namespace dotnet_aop.tests.unit.aspects
+namespace Facet.Tests.Unit.Facets
 {
-    public class Logger : Aspect
+    public class Logger : Facet
     {
         public override object Handle(MethodInfo targetMethod, object[] args, object target)
         {

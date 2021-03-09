@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{91109861-CC92-4583-B2D1-59FC51AA9A45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-aop", "src\dotnet-aop\dotnet-aop.csproj", "{02A993FE-91DB-4885-88A8-C9D823F1FC1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facet", "src\Facet\Facet.csproj", "{02A993FE-91DB-4885-88A8-C9D823F1FC1A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{068E309D-DFF7-4934-9F2A-5172F19322DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-aop.tests.Unit", "tests\dotnet-aop.tests.Unit\dotnet-aop.tests.Unit.csproj", "{20F319E7-955D-4BFC-9E27-5C1B0EDE08C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facet.Tests.Unit", "tests\Facet.Tests.Unit\Facet.Tests.Unit.csproj", "{20F319E7-955D-4BFC-9E27-5C1B0EDE08C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-aop.msdi", "src\dotnet-aop.msdi\dotnet-aop.msdi.csproj", "{C9DF92E7-6672-4403-8910-C6016031A391}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facet.msdi", "src\Facet.msdi\Facet.msdi.csproj", "{C9DF92E7-6672-4403-8910-C6016031A391}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

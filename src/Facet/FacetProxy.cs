@@ -1,11 +1,11 @@
 using System.Linq;
 using System.Reflection;
 
-namespace dotnet_aop
+namespace Facet
 {
-    public class AspectProxy<T> : DispatchProxy
+    public class FacetProxy<T> : DispatchProxy
     {
-        private AspectConfiguration _configuration;
+        private FacetConfiguration _configuration;
         private T _target;
 
 
@@ -18,7 +18,7 @@ namespace dotnet_aop
                 return targetMethod.Invoke(_target, args);
             }
 
-            return _configuration.Aspect.Handle(targetMethod, args, _target);
+            return _configuration.Facet.Handle(targetMethod, args, _target);
         }
 
         private bool ShouldMethodBeProxied(MethodInfo targetMethod)
@@ -36,16 +36,16 @@ namespace dotnet_aop
             return false;
         }
 
-        public static T Create(T target, AspectConfiguration configuration)
+        public static T Create(T target, FacetConfiguration configuration)
         {
-            object proxy = Create<T, AspectProxy<T>>();
+            object proxy = Create<T, FacetProxy<T>>();
 
-            ((AspectProxy<T>) proxy).SetParamters(target, configuration);
+            ((FacetProxy<T>) proxy).SetParamters(target, configuration);
 
             return (T)proxy;
         }
 
-        public void SetParamters(T target, AspectConfiguration configuration)
+        public void SetParamters(T target, FacetConfiguration configuration)
         {
             _configuration = configuration;
             _target = target;
