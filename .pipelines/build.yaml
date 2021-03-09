@@ -9,7 +9,7 @@ jobs:
     steps:
       - task: GithubVersionTask@0
         inputs:
-          samplestring: "huu-man"
+          GitHubConnection: 'Jarlotee'
   - job: dotnet_test
     steps:
       - task: DotNetCoreCLI@2
