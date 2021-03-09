@@ -1,7 +1,3 @@
-## dotnet-aop
+## Facet
 
-Handles aspect oriented primitives
-
-
-* Wrapper for proxy creation and execution which handles non-decorated members
-* Base attribute for checking decoration
+A library to handle common facets in software using aspect oriented programming techniques.
