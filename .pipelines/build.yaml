@@ -7,15 +7,13 @@ pool:
 jobs:
   - job: generate_version
     steps:
-      - task: GithubVersionTask@0
-        inputs:
-          GitHubConnection: 'Jarlotee'
-      - script: echo "$(github-version--name) $(github-version--prerelease) $(github-version--body)"
-  - job: dotnet_test
-    steps:
       - task: DotNetCoreCLI@2
         inputs:
           command: test
           arguments: -v minimal
           projects: tests/Facet.Tests.Unit
-
+      - task: GithubVersionTask@0
+        inputs:
+          GitHubConnection: 'Jarlotee'
+      - script: echo "$(github-version--name) $(github-version--prerelease) $(github-version--body)"
+      - script: ls -a
