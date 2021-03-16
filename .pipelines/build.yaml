@@ -18,3 +18,4 @@ jobs:
           command: test
           arguments: -v minimal
           projects: tests/Facet.Tests.Unit
+
