@@ -12,14 +12,13 @@ jobs:
           command: test
           arguments: -v minimal
           projects: tests/Facet.Tests.Unit
-      - task: GithubVersion@0
+      - task: GithubFlowVersion@0
         inputs:
           gitHubConnection: 'Jarlotee'
-      - script: echo "$(github-version--name) $(github-version--prerelease) $(github-version--body)"
+      - script: echo "$(GithubFlow.Name) $(GithubFlow.Body)"
       - script: ls -a
-      - task: GithubRelease@0
+      - task: GithubFlowRelease@0
         inputs:
-          githubConnection: 'Github'
-          tag: '$(github-version--name)'
-          body: '$(github-version--body)'
-      
+          githubConnection: 'Jarlotee'
+          tag: '$(GithubFlow.Name)'
+          body: '$(GithubFlow.Body)'
