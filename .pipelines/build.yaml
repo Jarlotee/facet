@@ -26,7 +26,6 @@ jobs:
           tagSource: 'userSpecifiedTag'
           tag: '$(github-version--name)'
           releaseNotesSource: 'inline'
-          isDraft: true
           isPreRelease: true
           changeLogCompareToRelease: 'lastFullRelease'
           changeLogType: 'issueBased'
