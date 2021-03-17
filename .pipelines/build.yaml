@@ -12,20 +12,14 @@ jobs:
           command: test
           arguments: -v minimal
           projects: tests/Facet.Tests.Unit
-      - task: GithubVersionTask@0
+      - task: GithubVersion@0
         inputs:
-          GitHubConnection: 'Jarlotee'
+          gitHubConnection: 'Jarlotee'
       - script: echo "$(github-version--name) $(github-version--prerelease) $(github-version--body)"
       - script: ls -a
-      - task: GitHubRelease@1
+      - task: GithubRelease@0
         inputs:
-          gitHubConnection: 'Github'
-          repositoryName: '$(Build.Repository.Name)'
-          action: 'create'
-          target: '$(Build.SourceVersion)'
-          tagSource: 'userSpecifiedTag'
+          githubConnection: 'Jarlotee'
           tag: '$(github-version--name)'
-          releaseNotesSource: 'inline'
-          releaseNotesInline: '$(github-version--body)'
-          isPreRelease: true
-          addChangeLog: false
+          body: '$(github-version--body)'
+      
