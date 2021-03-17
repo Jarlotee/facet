@@ -22,3 +22,4 @@ jobs:
           githubConnection: 'Jarlotee'
           tag: '$(GithubFlow.Tag)'
           body: '$(GithubFlow.Body)'
+          draft: true
