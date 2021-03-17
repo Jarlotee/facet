@@ -28,5 +28,4 @@ jobs:
           releaseNotesSource: 'inline'
           releaseNotesInline: '$(github-version--body)'
           isPreRelease: true
-          changeLogCompareToRelease: 'lastFullRelease'
-          changeLogType: 'issueBased'
+          addChangeLog: false
