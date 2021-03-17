@@ -15,10 +15,10 @@ jobs:
       - task: GithubFlowVersion@0
         inputs:
           gitHubConnection: 'Jarlotee'
-      - script: echo "$(GithubFlow.Name) $(GithubFlow.Body)"
+      - script: echo "$(GithubFlow.Tag) $(GithubFlow.Body)"
       - script: ls -a
       - task: GithubFlowRelease@0
         inputs:
           githubConnection: 'Jarlotee'
-          tag: '$(GithubFlow.Name)'
+          tag: '$(GithubFlow.Tag)'
           body: '$(GithubFlow.Body)'
