@@ -19,7 +19,7 @@ jobs:
       - script: ls -a
       - task: GithubRelease@0
         inputs:
-          githubConnection: 'Jarlotee'
+          githubConnection: 'Github'
           tag: '$(github-version--name)'
           body: '$(github-version--body)'
       
