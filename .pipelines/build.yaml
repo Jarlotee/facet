@@ -17,3 +17,14 @@ jobs:
           GitHubConnection: 'Jarlotee'
       - script: echo "$(github-version--name) $(github-version--prerelease) $(github-version--body)"
       - script: ls -a
+      - task: GitHubRelease@1
+        inputs:
+          gitHubConnection: 'Github'
+          repositoryName: '$(Build.Repository.Name)'
+          action: 'create'
+          target: '$(Build.SourceVersion)'
+          tagSource: 'userSpecifiedTag'
+          tag: '$(github-version--name)'
+          isDraft: true
+          changeLogCompareToRelease: 'lastFullRelease'
+          changeLogType: 'commitBased'
