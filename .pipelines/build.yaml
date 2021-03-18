@@ -67,6 +67,8 @@ stages:
               steps:
               - script: echo "deploying [$(tag)] to prod"
       - job: github_release
+        dependsOn:
+        - prod_deployment
         variables:
           tag: $[stageDependencies.build.build_job.outputs['version.tag']]
           body: $[stageDependencies.build.build_job.outputs['version.body']]
