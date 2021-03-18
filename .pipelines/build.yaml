@@ -5,9 +5,9 @@ pool:
   vmImage: "ubuntu-latest"
 
 stages:
-  - stage: Build
+  - stage: build
     jobs:
-      - job: containerize
+      - job: build
         steps:
           - task: DotNetCoreCLI@2
             inputs:
@@ -20,34 +20,34 @@ stages:
           - script: echo "$(GithubFlow.Tag) $(GithubFlow.Body)"
           - script: ls -a
           - script: echo "Deploying Container"
-  - stage: Dev
+  - stage: deploy_dev
     jobs:
-      - deployment: deploy-dev
+      - deployment: deploy_dev
         environment: dev
         strategy:
           runOnce:
             deploy:
               steps:
-              - script: echo "Deploying Dev"
-  - stage: Qa
+              - script: echo "deploying $(stageDependencies.build.build.outputs['GithubFlow.Tag']) to dev"
+  - stage: deploy_qa
     jobs:
-      - deployment: deploy-qa
+      - deployment: deploy_qa
         environment: qa
         strategy:
           runOnce:
             deploy:
               steps:
-                - script: echo "Deploying Qa"
-  - stage: Prod
+                - script: echo "deploying Qa"
+  - stage: deploy_prod
     condition: false
     jobs:
-      - deployment: deploy-prod
+      - deployment: deploy_prod
         environment: prod
         strategy:
           runOnce:
             deploy:
               steps:
-              - script: echo "Deploying Prod"
+              - script: echo "deploying Prod"
       - job:
         steps:
           - task: GithubFlowRelease@0
