@@ -19,6 +19,12 @@ stages:
             inputs:
               gitHubConnection: 'Jarlotee'
           - script: echo "deploying container"
+          - task: GithubFlowRelease@0
+            inputs:
+              githubConnection: 'Jarlotee'
+              tag: '$(tag)'
+              body: '$(body)'
+              draft: true
   - stage: deploy_dev
     jobs:
       - deployment: deploy_dev
@@ -53,11 +59,13 @@ stages:
               steps:
               - script: echo "deploying [$(tag)] to prod"
       - job:
+        variables:
+          tag: $[stageDependencies.build.build.outputs['version.tag']]
+          body: $[stageDependencies.build.build.outputs['version.tag']]
         steps:
           - task: GithubFlowRelease@0
             inputs:
               githubConnection: 'Jarlotee'
-              tag: '$(GithubFlow.Tag)'
-              body: '$(GithubFlow.Body)'
-              draft: true
+              tag: '$(tag)'
+              body: '$(body)'
       
