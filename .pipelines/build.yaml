@@ -18,7 +18,7 @@ stages:
             name: GithubFlowVersion
             inputs:
               gitHubConnection: 'Jarlotee'
-          - script: echo "$(GithubFlow.Tag) $(GithubFlow.Body)"
+          - script: echo "$(tag) $(body)"
           - script: ls -a
           - script: echo "Deploying Container"
   - stage: deploy_dev
@@ -26,12 +26,13 @@ stages:
       - deployment: deploy_dev
         environment: dev
         variables:
-          tag: $[stageDependencies.build.build.outputs['GithubFlowVersion.GithubFlow.Tag']]
+          tag: $[stageDependencies.build.build.outputs['GithubFlowVersion.tag']]
+          tag2: $[stageDependencies.build.build.outputs['tag']]
         strategy:
           runOnce:
             deploy:
               steps:
-              - script: echo "deploying $(tag) to dev"
+              - script: echo "deploying [$(tag)] [$(tag2)] to dev"
   - stage: deploy_qa
     jobs:
       - deployment: deploy_qa
