@@ -7,7 +7,7 @@ pool:
 stages:
   - stage: Build
     jobs:
-      - job:
+      - job: containerize
         steps:
           - task: DotNetCoreCLI@2
             inputs:
@@ -22,7 +22,7 @@ stages:
           - script: echo "Deploying Container"
   - stage: Dev
     jobs:
-      - deployment:
+      - deployment: deploy-dev
         environment: dev
         strategy:
           runOnce:
@@ -31,7 +31,7 @@ stages:
               - script: echo "Deploying Dev"
   - stage: Qa
     jobs:
-      - deployment:
+      - deployment: deploy-qa
         environment: qa
         strategy:
           runOnce:
@@ -39,8 +39,9 @@ stages:
               steps:
                 - script: echo "Deploying Qa"
   - stage: Prod
+    condition: false
     jobs:
-      - deployment:
+      - deployment: deploy-prod
         environment: prod
         strategy:
           runOnce:
