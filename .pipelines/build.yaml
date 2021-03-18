@@ -26,6 +26,7 @@ stages:
               body: '$(version.body)'
               draft: true
   - stage: dev_deploy
+    dependsOn: [build]
     jobs:
       - deployment: dev_deployment
         environment: dev
@@ -37,6 +38,7 @@ stages:
               steps:
               - script: echo "deploying [$(tag)] to dev"
   - stage: qa_deploy
+    dependsOn: [build,dev_deploy]
     jobs:
       - deployment: qa_deployment
         environment: qa
@@ -48,6 +50,7 @@ stages:
               steps:
                 - script: echo "deploying [$(tag)] to qa"
   - stage: prod_deploy
+    dependsOn: [build,qa_deploy]
     jobs:
       - deployment: prod_deployment
         environment: prod
@@ -58,7 +61,7 @@ stages:
             deploy:
               steps:
               - script: echo "deploying [$(tag)] to prod"
-      - job:
+      - job: github_release
         variables:
           tag: $[stageDependencies.build.build_job.outputs['version.tag']]
           body: $[stageDependencies.build.build_job.outputs['version.body']]
