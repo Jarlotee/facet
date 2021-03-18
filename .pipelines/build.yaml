@@ -24,11 +24,13 @@ stages:
     jobs:
       - deployment: deploy_dev
         environment: dev
+        variables:
+          tag: $[stageDependencies.build.build.outputs['GithubFlow.Tag']]
         strategy:
           runOnce:
             deploy:
               steps:
-              - script: echo "deploying $(stageDependencies.build.build.outputs['GithubFlow.Tag']) to dev"
+              - script: echo "deploying $(tag) to dev"
   - stage: deploy_qa
     jobs:
       - deployment: deploy_qa
@@ -39,7 +41,6 @@ stages:
               steps:
                 - script: echo "deploying Qa"
   - stage: deploy_prod
-    condition: false
     jobs:
       - deployment: deploy_prod
         environment: prod
