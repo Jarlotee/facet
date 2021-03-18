@@ -7,7 +7,7 @@ pool:
 stages:
   - stage: build
     jobs:
-      - job: build
+      - job: build_job
         steps:
           - task: DotNetCoreCLI@2
             inputs:
@@ -25,34 +25,34 @@ stages:
               tag: '$(version.tag)'
               body: '$(version.body)'
               draft: true
-  - stage: deploy_dev
+  - stage: dev_deploy
     jobs:
-      - deployment: deploy_dev
+      - deployment: dev_deployment
         environment: dev
         variables:
-          tag: $[stageDependencies.build.build.outputs['version.tag']]
+          tag: $[stageDependencies.build.build_job.outputs['version.tag']]
         strategy:
           runOnce:
             deploy:
               steps:
               - script: echo "deploying [$(tag)] to dev"
-  - stage: deploy_qa
+  - stage: qa_deploy
     jobs:
-      - deployment: deploy_qa
+      - deployment: qa_deployment
         environment: qa
         variables:
-          tag: $[stageDependencies.build.build.outputs['version.tag']]
+          tag: $[stageDependencies.build.build_job.outputs['version.tag']]
         strategy:
           runOnce:
             deploy:
               steps:
                 - script: echo "deploying [$(tag)] to qa"
-  - stage: deploy_prod
+  - stage: prod_deploy
     jobs:
-      - deployment: deploy_prod
+      - deployment: prod_deployment
         environment: prod
         variables:
-          tag: $[stageDependencies.build.build.outputs['version.tag']]
+          tag: $[stageDependencies.build.build_job.outputs['version.tag']]
         strategy:
           runOnce:
             deploy:
@@ -60,8 +60,8 @@ stages:
               - script: echo "deploying [$(tag)] to prod"
       - job:
         variables:
-          tag: $[stageDependencies.build.build.outputs['version.tag']]
-          body: $[stageDependencies.build.build.outputs['version.tag']]
+          tag: $[stageDependencies.build.build_job.outputs['version.tag']]
+          body: $[stageDependencies.build.build_job.outputs['version.body']]
         steps:
           - task: GithubFlowRelease@0
             inputs:
