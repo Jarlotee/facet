@@ -22,8 +22,8 @@ stages:
           - task: GithubFlowRelease@0
             inputs:
               githubConnection: 'Jarlotee'
-              tag: '$(tag)'
-              body: '$(body)'
+              tag: '$(version.tag)'
+              body: '$(version.body)'
               draft: true
   - stage: deploy_dev
     jobs:
