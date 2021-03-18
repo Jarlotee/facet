@@ -4,22 +4,55 @@ pr: none
 pool:
   vmImage: "ubuntu-latest"
 
-jobs:
-  - job: generate_version
-    steps:
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: test
-          arguments: -v minimal
-          projects: tests/Facet.Tests.Unit
-      - task: GithubFlowVersion@0
-        inputs:
-          gitHubConnection: 'Jarlotee'
-      - script: echo "$(GithubFlow.Tag) $(GithubFlow.Body)"
-      - script: ls -a
-      - task: GithubFlowRelease@0
-        inputs:
-          githubConnection: 'Jarlotee'
-          tag: '$(GithubFlow.Tag)'
-          body: '$(GithubFlow.Body)'
-          draft: true
+stages:
+  - stage: Build
+    jobs:
+      - job:
+        steps:
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: test
+              arguments: -v minimal
+              projects: tests/Facet.Tests.Unit
+          - task: GithubFlowVersion@0
+            inputs:
+              gitHubConnection: 'Jarlotee'
+          - script: echo "$(GithubFlow.Tag) $(GithubFlow.Body)"
+          - script: ls -a
+          - script: echo "Deploying Container"
+  - stage: Dev
+    jobs:
+      - deployment:
+        environment: dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - script: echo "Deploying Dev"
+  - stage: Qa
+    jobs:
+      - deployment:
+        environment: qa
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo "Deploying Qa"
+  - stage: Prod
+    jobs:
+      - deployment:
+        environment: prod
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - script: echo "Deploying Prod"
+      - job:
+        steps:
+          - task: GithubFlowRelease@0
+            inputs:
+              githubConnection: 'Jarlotee'
+              tag: '$(GithubFlow.Tag)'
+              body: '$(GithubFlow.Body)'
+              draft: true
+      
