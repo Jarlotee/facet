@@ -15,42 +15,43 @@ stages:
               arguments: -v minimal
               projects: tests/Facet.Tests.Unit
           - task: GithubFlowVersion@0
-            name: GithubFlowVersion
+            name: version
             inputs:
               gitHubConnection: 'Jarlotee'
-          - script: echo "$(tag) $(body)"
-          - script: ls -a
-          - script: echo "Deploying Container"
+          - script: echo "deploying container"
   - stage: deploy_dev
     jobs:
       - deployment: deploy_dev
         environment: dev
         variables:
-          tag: $[stageDependencies.build.build.outputs['GithubFlowVersion.tag']]
-          tag2: $[stageDependencies.build.build.outputs['tag']]
+          tag: $[stageDependencies.build.build.outputs['version.tag']]
         strategy:
           runOnce:
             deploy:
               steps:
-              - script: echo "deploying [$(tag)] [$(tag2)] to dev"
+              - script: echo "deploying [$(tag)] to dev"
   - stage: deploy_qa
     jobs:
       - deployment: deploy_qa
         environment: qa
+        variables:
+          tag: $[stageDependencies.build.build.outputs['version.tag']]
         strategy:
           runOnce:
             deploy:
               steps:
-                - script: echo "deploying Qa"
+                - script: echo "deploying [$(tag)] to qa"
   - stage: deploy_prod
     jobs:
       - deployment: deploy_prod
         environment: prod
+        variables:
+          tag: $[stageDependencies.build.build.outputs['version.tag']]
         strategy:
           runOnce:
             deploy:
               steps:
-              - script: echo "deploying Prod"
+              - script: echo "deploying [$(tag)] to prod"
       - job:
         steps:
           - task: GithubFlowRelease@0
